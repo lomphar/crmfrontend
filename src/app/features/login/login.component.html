@@ -3,22 +3,49 @@
     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Login</h2>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+      <!-- EMAIL -->
       <div>
         <label class="block text-sm font-medium">Email</label>
         <input formControlName="email" type="email"
                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+        <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="text-sm text-red-600 mt-1">
+          <div *ngIf="form.get('email')?.errors?.['required']">O email é obrigatório.</div>
+          <div *ngIf="form.get('email')?.errors?.['email']">Digite um email válido.</div>
+        </div>
       </div>
 
+      <!-- SENHA -->
       <div>
         <label class="block text-sm font-medium">Senha</label>
         <input formControlName="password" type="password"
                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+        <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="text-sm text-red-600 mt-1">
+          <div *ngIf="form.get('password')?.errors?.['required']">A senha é obrigatória.</div>
+        </div>
       </div>
 
-      <button type="submit"
-              class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-        Entrar
-      </button>
+      <!-- ERRO DE AUTENTICAÇÃO -->
+      <div *ngIf="error" class="text-red-600 text-sm text-center">{{ error }}</div>
+
+      <!-- BOTÃO -->
+<button type="submit"
+        [disabled]="form.invalid || isLoading"
+        class="w-full py-2 px-4 bg-blue-600 text-white rounded-md transition
+               hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2">
+  <ng-container *ngIf="!isLoading; else loadingTemplate">Entrar</ng-container>
+  <ng-template #loadingTemplate>
+    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+         viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10"
+              stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
+      </path>
+    </svg>
+    <span>Entrando...</span>
+  </ng-template>
+</button>
+
     </form>
   </div>
 </div>
