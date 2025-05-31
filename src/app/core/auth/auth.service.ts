@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private backendUrl = 'https://botvendas.duckdns.org:8000/api'; // ou o IP:porta do seu backend
+  private backendUrl = 'https://botvendas.duckdns.org:8000'; // ou o IP:porta do seu backend
 
   constructor(private http: HttpClient) {}
 
